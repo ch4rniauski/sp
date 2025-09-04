@@ -8,7 +8,7 @@ namespace laba1
         private int _passwordLengh = 8;
         private const int _passHistoryLength = 5;
         private const string _fileToSaveHistoryName = "history.txt";
-        private const string _registerPath = @"Laba1";
+        private const string _registerPath = "Laba1";
         private const string _fileNameToSaveIntoRegister = "IncludeNumbers";
         private bool _includeNumbers = false;
         private readonly List<string> _passHistory = new(_passHistoryLength);
