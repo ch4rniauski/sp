@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System.Text;
 
 namespace laba1
@@ -7,12 +8,15 @@ namespace laba1
         private int _passwordLengh = 8;
         private const int _passHistoryLength = 5;
         private const string _fileToSaveHistoryName = "history.txt";
+        private const string _registerPath = @"Laba1";
+        private const string _fileNameToSaveIntoRegister = "IncludeNumbers";
         private bool _includeNumbers = false;
         private readonly List<string> _passHistory = new(_passHistoryLength);
 
         public Form1()
         {
             InitializeComponent();
+            LoadIncludeNumbersFromRegistry();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -59,7 +63,7 @@ namespace laba1
             return strBuilder.ToString();
         }
 
-        private void GenerateChar(Random rnd, StringBuilder strBuilder)
+        private static void GenerateChar(Random rnd, StringBuilder strBuilder)
         {
             var isUpper = rnd.Next(2) == 0;
 
@@ -78,6 +82,7 @@ namespace laba1
 
             PassHistoryManipulation(pass);
             SaveHistoryIntoFile();
+            SaveIncludeNumbersToRegistry();
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -135,6 +140,7 @@ namespace laba1
             if (!File.Exists(_fileToSaveHistoryName))
             {
                 MessageBox.Show("Файл истории паролей не найден.");
+
                 return;
             }
 
@@ -154,6 +160,41 @@ namespace laba1
             foreach (var pass in _passHistory)
             {
                 passHistoryListBox.Items.Add(pass);
+            }
+        }
+
+        private void SaveIncludeNumbersToRegistry()
+        {
+            try
+            {
+                using var key = Registry.CurrentUser.CreateSubKey(_registerPath);
+
+                key.SetValue(_fileNameToSaveIntoRegister, _includeNumbers ? 1 : 0, RegistryValueKind.DWord);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка записи в реестр: {ex.Message}");
+            }
+        }
+
+        private void LoadIncludeNumbersFromRegistry()
+        {
+            try
+            {
+                using var key = Registry.CurrentUser.OpenSubKey(_registerPath);
+
+                if (key != null)
+                {
+                    var value = key.GetValue(_fileNameToSaveIntoRegister, 0);
+
+                    _includeNumbers = Convert.ToInt32(value) == 1;
+
+                    withNumsCheckBox.Checked = _includeNumbers;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка чтения из реестра: {ex.Message}");
             }
         }
     }
