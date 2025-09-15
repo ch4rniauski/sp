@@ -1,6 +1,6 @@
 ﻿int threadsCount;
 int passwordLength;
-int complexity;
+int passComplexity;
 
 while (true)
 {
@@ -47,7 +47,7 @@ while (true)
 
     var number = Console.ReadLine();
 
-    if (!int.TryParse(number, out complexity))
+    if (!int.TryParse(number, out passComplexity))
     {
         Console.Clear();
         Console.WriteLine("Введите подходящее число");
@@ -55,7 +55,7 @@ while (true)
         continue;
     }
 
-    switch (complexity)
+    switch (passComplexity)
     {
         case 1 or 2 or 3:
             break;
@@ -70,6 +70,8 @@ while (true)
 }
 
 var tasks = new Task[threadsCount];
+var mutex = new Mutex();
+var rnd = new Random();
 
 for (var i = 0; i < threadsCount; i++)
 {
@@ -77,15 +79,27 @@ for (var i = 0; i < threadsCount; i++)
     
     tasks[i] = Task.Run(() =>
     {
-        var password = GeneratePassword(passwordLength, complexity);
+        mutex.WaitOne();
         
-        Console.WriteLine($"Поток №{threadNum}\tID={Environment.CurrentManagedThreadId}\tПароль: {password}");
+         try
+         {
+            var password = GeneratePassword(passwordLength, passComplexity);
+            
+            Console.WriteLine($"Поток №{threadNum}" +
+                              $"\tID={Environment.CurrentManagedThreadId}" +
+                              $"\tСостояние={Thread.CurrentThread.ThreadState}" +
+                              $"\tПароль: {password}");
+        }
+        finally
+        {
+            mutex.ReleaseMutex();
+        }
     });
 }
 
 Task.WaitAll(tasks);
 
-static string GeneratePassword(int length, int complexity)
+string GeneratePassword(int length, int complexity)
 {
     const string lower = "abcdefghijklmnopqrstuvwxyz";
     const string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -99,8 +113,6 @@ static string GeneratePassword(int length, int complexity)
         3 => lower + upper + digits + symbols,
         _ => lower + upper + digits
     };
-
-    var rnd = new Random();
     
     return new string(
         Enumerable.Range(0, length)
