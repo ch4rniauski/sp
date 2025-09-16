@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "laba5.1", "laba5.1\laba5.1.csproj", "{3D95DE12-F024-4C7F-B84F-014851E7839C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "laba5.2", "laba5.2\laba5.2.csproj", "{10C101B0-8C0F-4CB0-9D39-4C585C0E215D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D95DE12-F024-4C7F-B84F-014851E7839C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D95DE12-F024-4C7F-B84F-014851E7839C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D95DE12-F024-4C7F-B84F-014851E7839C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D95DE12-F024-4C7F-B84F-014851E7839C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10C101B0-8C0F-4CB0-9D39-4C585C0E215D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10C101B0-8C0F-4CB0-9D39-4C585C0E215D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10C101B0-8C0F-4CB0-9D39-4C585C0E215D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10C101B0-8C0F-4CB0-9D39-4C585C0E215D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
